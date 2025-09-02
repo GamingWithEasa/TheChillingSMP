@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Chilling SMP Wiki</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .fade { transition: all 0.3s ease; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body class="bg-gray-900 text-white min-h-screen flex transition-colors duration-500">
+
+  <!-- Sidebar -->
+  <aside class="w-64 bg-gray-800 p-4 space-y-4">
+    <h2 class="text-xl font-bold">The Chilling SMP</h2>
+    <input id="search" type="text" placeholder="Search..."
+      class="w-full p-2 rounded bg-gray-700 text-white" />
+    <nav id="nav" class="space-y-2">
+      <button data-page="history" class="w-full text-left p-2 rounded hover:bg-gray-700 fade">History</button>
+      <button data-page="datapacks" class="w-full text-left p-2 rounded hover:bg-gray-700 fade">Datapacks</button>
+      <button data-page="plugins" class="w-full text-left p-2 rounded hover:bg-gray-700 fade">Plugins</button>
+      <button data-page="guides" class="w-full text-left p-2 rounded hover:bg-gray-700 fade">Guides</button>
+    </nav>
+    <button id="themeToggle" class="w-full mt-4 p-2 rounded bg-gray-700 hover:bg-gray-600 fade">🌙 Toggle Theme</button>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="flex-1 p-6 space-y-6">
+    <section id="history" class="page">
+      <h1 class="text-2xl font-bold mb-2">Server History</h1>
+      <p>The Chilling SMP began as a small group of friends...</p>
+    </section>
+
+    <section id="datapacks" class="page hidden">
+      <h1 class="text-2xl font-bold mb-2">Datapacks</h1>
+      <p>Here you’ll find info about added datapacks...</p>
+    </section>
+
+    <section id="plugins" class="page hidden">
+      <h1 class="text-2xl font-bold mb-2">Plugins</h1>
+      <p>Here you’ll find info about server plugins...</p>
+    </section>
+
+    <section id="guides" class="page hidden">
+      <h1 class="text-2xl font-bold mb-2">Guides</h1>
+      <p>Step-by-step guides on using features...</p>
+    </section>
+  </main>
+
+  <script>
+    // Page navigation
+    const navButtons = document.querySelectorAll('#nav button');
+    const pages = document.querySelectorAll('.page');
+    navButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        pages.forEach(p => p.classList.add('hidden'));
+        document.getElementById(btn.dataset.page).classList.remove('hidden');
+      });
+    });
+
+    // Search filter
+    document.getElementById('search').addEventListener('input', (e) => {
+      const q = e.target.value.toLowerCase();
+      navButtons.forEach(btn => {
+        const match = btn.textContent.toLowerCase().includes(q);
+        btn.style.display = match ? '' : 'none';
+      });
+    });
+
+    // Theme toggle
+    const themeToggle = document.getElementById('themeToggle');
+    const body = document.body;
+    if(localStorage.getItem('theme') === 'light') {
+      body.classList.replace('bg-gray-900','bg-white');
+      body.classList.replace('text-white','text-black');
+    }
+    themeToggle.addEventListener('click', () => {
+      if(body.classList.contains('bg-gray-900')) {
+        body.classList.replace('bg-gray-900','bg-white');
+        body.classList.replace('text-white','text-black');
+        localStorage.setItem('theme','light');
+      } else {
+        body.classList.replace('bg-white','bg-gray-900');
+        body.classList.replace('text-black','text-white');
+        localStorage.setItem('theme','dark');
+      }
+    });
+  </script>
+</body>
+</html>
